@@ -91,10 +91,7 @@ export class PortfoliosService {
     });
 
     //satılan hisselerin transactionları kapatilabilir
-    // this.transactionsService.closeTransactions(
-    //   share.id,
-    //   buyShareDto.amount,
-    // );
+    this.transactionsService.closeTransactions(share.id, buyShareDto.amount);
 
     return this.portfoliosRepository.save(portfolio);
   }

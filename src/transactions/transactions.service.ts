@@ -59,4 +59,25 @@ export class TransactionsService {
 
     return true;
   }
+
+  async getTransactionsByShareId(shareId: string): Promise<Transaction[]> {
+    return this.transactionsRepository.find({
+      where: {
+        share: {
+          id: shareId,
+        },
+      },
+      relations: ['user', 'share'],
+    });
+  }
+
+  async closeTransactions(shareId: string, amount: number) {
+    const transactions = await this.getTransactionsByShareId(shareId);
+
+    //update transactions by amount
+    for (let i = 0; i < amount; i++) {
+      transactions[i].isActive = false;
+      await this.transactionsRepository.save(transactions[i]);
+    }
+  }
 }
